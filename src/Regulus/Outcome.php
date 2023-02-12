@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Regulus;
@@ -12,6 +13,9 @@ class Outcome
      */
     private array $rules = [];
 
+    /**
+     * @throws OutcomeException
+     */
     public function addRule(Rule $rule): void
     {
         if (array_key_exists($rule->getName(), $this->rules)) {
