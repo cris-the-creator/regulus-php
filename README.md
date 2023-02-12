@@ -7,7 +7,7 @@ Todo:
 
 
 ## Setup conditions and rules
-```
+```php
 $criticalCondition = new CiritcalCondition();
 $dangerousCondition = new DangerousCondition();
 
@@ -24,6 +24,6 @@ $outcome->addRule($importantRule);
 ```
 
 ## Resolve rules based on outcome
-```
+```php
 
 ```
