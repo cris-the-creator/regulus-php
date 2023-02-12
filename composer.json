@@ -1,6 +1,6 @@
 {
     "autoload": {
-        "psr-4": {"Regulus\\": "src/"}
+        "psr-4": {"Regulus\\": "src/Regulus/"}
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0"

@@ -3,27 +3,28 @@ declare(strict_types=1);
 
 namespace Regulus;
 
-class Rule
+abstract class Condition
 {
     /**
+     * @var callable
+     */
+    private $fulfilled;
+    /**
      * @param string $name
-     * @param string[] $conditions
+     * @param callable $fullfiled
      */
     public function __construct(
         private readonly string $name,
-        private readonly array $conditions
-    ) { }
+        $fulfilled
+    )
+    {
+        $this->fulfilled = $fulfilled;
+    }
 
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getConditions(): array
-    {
-        return $this->conditions;
-    }
+    abstract public function isFulfilled(): bool;
 }
