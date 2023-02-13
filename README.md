@@ -11,16 +11,17 @@ Todo:
 $criticalCondition = new CiritcalCondition();
 $dangerousCondition = new DangerousCondition();
 
-$importantRule = new Rule(
-    'critical_rule', 
-    [$criticalCondition, $dangerousCondition]
-);
+$importantRule = new ImportantRule();
+$importantRule->setConditions([$criticalCondition, $dangerousCondition]);
 
 // Add more Rules and Conditions
 // ...
 
 $outcome = new Outcome();
 $outcome->addRule($importantRule);
+
+$resolver = new Resolver();
+$resolver->resolve();
 ```
 
 ## Resolve rules based on outcome

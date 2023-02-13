@@ -1,27 +1,29 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Regulus;
 
-class Rule
+abstract class Rule
 {
     /**
-     * @param string $name
-     * @param string[] $conditions
+     * @var string[]
      */
-    public function __construct(
-        private readonly string $name,
-        private array $conditions = []
-    ) { }
+    private array $conditions;
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
+    public abstract function getRuleResult(): bool;
 
-    public function addCondition(string $condition)
+    public function addCondition(string $condition): void
     {
         $this->conditions[] = $condition;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function setConditions(array $conditions): array
+    {
+        return $this->conditions = $conditions;
     }
 
     /**

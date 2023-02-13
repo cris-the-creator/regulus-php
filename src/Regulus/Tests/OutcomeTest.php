@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Regulus\Tests;
@@ -6,7 +7,6 @@ namespace Regulus\Tests;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\InvalidArgumentException;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Regulus\Condition;
 use Regulus\Exception\OutcomeException;
@@ -46,7 +46,7 @@ class OutcomeTest extends TestCase
         $isNotPassed->method('isFulfilled')->willReturn(true);
         if (!$isNotPassed->isFulfilled()) {
             $outcome->addRule(
-                new Rule('disable_row', [$isNotPassed::class])
+                $this->createStub('Regulus\Rule')
             );
         }
 
@@ -55,10 +55,8 @@ class OutcomeTest extends TestCase
         $hasCreditsReached->method('isFulfilled')->willReturn(true);
         if ($hasCreditsReached->isFulfilled()) {
             $outcome->addRule(
-                new Rule('max_credits_reached', [$hasCreditsReached::class])
+                $this->createStub('Regulus\Rule')
             );
         }
-
-
     }
 }
