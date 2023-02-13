@@ -6,7 +6,7 @@ Todo:
 2. guide
 
 
-## Setup conditions and rules
+### Setup conditions and rules
 ```php
 $criticalCondition = new CiritcalCondition();
 $dangerousCondition = new DangerousCondition();
@@ -24,7 +24,7 @@ $resolver = new Resolver();
 $resolver->resolve();
 ```
 
-## Resolve rules based on outcome
+### Resolve rules based on outcome
 ```php
 
 ```

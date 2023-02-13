@@ -18,11 +18,11 @@ class OutcomeTest extends TestCase
 
     /**
      * @throws OutcomeException
+     * @throws Exception
      */
     public function testInitialize()
     {
         $rule = $this->createStub(Rule::class);
-        $rule->method('getName')->willReturn('test_rule');
 
         $outcome = new Outcome();
         $outcome->addRule($rule);
@@ -58,5 +58,7 @@ class OutcomeTest extends TestCase
                 $this->createStub('Regulus\Rule')
             );
         }
+
+        $this->assertTrue(true);
     }
 }

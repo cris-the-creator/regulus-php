@@ -18,10 +18,10 @@ class Outcome
      */
     public function addRule(Rule $rule): void
     {
-        if (array_key_exists($rule->getName(), $this->rules)) {
+        if (array_key_exists($rule::class, $this->rules)) {
             throw new OutcomeException('Rule with same name already exists.');
         }
 
-        $this->rules[$rule->getName()] = $rule;
+        $this->rules[$rule::class] = $rule;
     }
 }
