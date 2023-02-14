@@ -3,28 +3,78 @@ Regulus Php Version
 
 Todo:
 1. Install with composer
-2. guide
 
 
-### Setup conditions and rules
+### Example
 ```php
-$criticalCondition = new CiritcalCondition();
-$dangerousCondition = new DangerousCondition();
+// Define some rules and conditions
+$disableRow = new \DisableRowRule(
+    new SomeRowCondition(),
+    new SomeSecurityCondition()
+);
 
-$importantRule = new ImportantRule();
-$importantRule->setConditions([$criticalCondition, $dangerousCondition]);
+// Init the outcome and add all rules to it
+$outcome = new \Regulus\Outcome();
+$outcome->addRule($disableRow);
 
-// Add more Rules and Conditions
-// ...
+// Init the resolver and pass him the outcome
+$resolver = new \Regulus\Resolver($outcome);
 
-$outcome = new Outcome();
-$outcome->addRule($importantRule);
+// Resolve the rule
+$disableRowResult = $resolver->resolve(DisableRowRule::class);
+if ($disableRowResult->isFulfilled()) {
+    // Disable the row
+    // ...
 
-$resolver = new Resolver();
-$resolver->resolve();
+    // Print / Log the fulfilled conditions
+    echo "Disable row caused by:";
+    foreach ($disableRowResult->getConditions()  as $condition) {
+        echo $condition . '\n';
+    }
+}
 ```
 
-### Resolve rules based on outcome
+### Create conditions
 ```php
+class SomeRowCondition implements \Regulus\Condition
+{
+    // Inject all repositories or services you need
+    public function __construct(private SomeService $someService)
+    {}
+    
+    public function isFulfilled(): bool
+    {
+        // Determine if the condition is fulfilled
+        // ...
+        
+        return true;
+    }
+}
+```
 
+### Create rules
+```php
+class DisableRowRule implements \Regulus\Rule
+{
+    // Inject all needed conditions for this rule
+    public function __construct(private SomeRowCondition $someRowCondition)
+    {}
+
+    public function getRuleResult(): ?\Regulus\RuleResult
+    {
+        // Determine if the result is fulfilled ...
+        if($this->someRowCondition->isFulfilled()) {
+            return new \Regulus\RuleResult(
+                self::class,
+                [$this->someRowCondition::class]
+            );
+        }
+
+        // ... or not
+        return new \Regulus\RuleResult(
+            self::class,
+            []
+        );
+    }
+}
 ```

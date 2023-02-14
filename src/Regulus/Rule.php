@@ -6,5 +6,5 @@ namespace Regulus;
 
 interface Rule
 {
-    public function getRuleResult(): ?\Regulus\Result;
+    public function getRuleResult(): ?\Regulus\RuleResult;
 }
