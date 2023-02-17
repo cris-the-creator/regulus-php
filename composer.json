@@ -1,4 +1,18 @@
 {
+    "name": "pengboomouch/regulus-php",
+    "description": "Small rule library.",
+    "type": "library",
+    "require": {
+        "php": ">=8.2.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cristian Cornea",
+            "email": "pengboomouch@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {"Regulus\\": "src/Regulus/"}
     },
