@@ -1,4 +1,4 @@
-# regulus-php &middot; ![example event parameter](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?event=push) [![Version](http://poser.pugx.org/phpunit/phpunit/version)](https://packagist.org/packages/phpunit/phpunit) [![PHP Version Require](http://poser.pugx.org/phpunit/phpunit/require/php)](https://packagist.org/packages/phpunit/phpunit) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE)
+# regulus-php &middot; ![GitHub Actions](https://github.com/pengboomouch/regulus-php/actions/workflows/php.yml/badge.svg?event=push) [![Version](http://poser.pugx.org/pengboomouch/regulus-php/version)](https://packagist.org/packages/pengboomouch/regulus-php) [![PHP Version Require](http://poser.pugx.org/pengboomouch/regulus-php/require/php)](https://packagist.org/packages/pengboomouch/regulus-php) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pengboomouch/regulus-php/LICENSE)
 
 
 
