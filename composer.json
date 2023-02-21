@@ -3,7 +3,7 @@
     "description": "Small rule library.",
     "type": "library",
     "require": {
-        "php": ">=8.2.0"
+        "php": ">=8.2"
     },
     "license": "MIT",
     "authors": [
