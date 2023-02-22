@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Regulus;
 
-readonly class RuleResult
+class RuleResult
 {
     private bool $isFulfilled;
     /**
      * @param string $ruleName
      * @param string[] $conditionNames
      */
-    public function __construct(private string $ruleName, private array $conditionNames)
+    public function __construct(private readonly string $ruleName, private readonly array $conditionNames)
     {
         if (! empty($this->conditions)) {
             $this->isFulfilled = true;

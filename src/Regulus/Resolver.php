@@ -5,14 +5,14 @@ namespace Regulus;
 
 use Regulus\Exception\ResolverException;
 
-readonly class Resolver
+class Resolver
 {
-    public function __construct(private Outcome $outcome) {}
+    public function __construct(private readonly Outcome $outcome) {}
 
     /**
      * @throws ResolverException
      */
-    public function resolve(string $ruleName)
+    public function resolve(string $ruleName): ?RuleResult
     {
         $rule = $this->outcome->findRule($ruleName);
         if (null === $rule) {

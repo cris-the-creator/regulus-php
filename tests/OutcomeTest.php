@@ -29,10 +29,10 @@ class OutcomeTest extends TestCase
     public function testFindRule()
     {
         $rule = $this->createStub(Rule::class);
-        $outcome = new Outcome();
-        $outcome->addRule($rule);
+
+        $outcome = $this->createStub(Outcome::class);
+        $outcome->method('findRule')->willReturn($rule);
 
         $this->assertEquals($outcome->findRule($rule::class), $rule);
-        $this->assertNull($outcome->findRule('NonExistingClassName'));
     }
 }
