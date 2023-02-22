@@ -2,13 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Regulus\Tests;
-
-use PHPUnit\Event\NoPreviousThrowableException;
-use PHPUnit\Framework\InvalidArgumentException;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
-use Regulus\Condition;
 use Regulus\Exception\OutcomeException;
 use Regulus\Outcome;
 use Regulus\Rule;

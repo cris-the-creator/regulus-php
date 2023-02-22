@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Regulus\Tests;
-
 use PHPUnit\Framework\TestCase;
 
 class ResolverTest extends TestCase
