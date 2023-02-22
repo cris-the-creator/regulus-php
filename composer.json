@@ -12,6 +12,9 @@
             "email": "pengboomouch@gmail.com"
         }
     ],
+    "scripts": {
+        "test" : "vendor/bin/phpunit ./tests"
+    },
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {"Regulus\\": "src/Regulus/"}
