@@ -1,4 +1,4 @@
-# regulus-php &middot; ![GitHub Actions](https://github.com/pengboomouch/regulus-php/actions/workflows/php.yml/badge.svg?event=push) [![Version](http://poser.pugx.org/pengboomouch/regulus-php/version)](https://packagist.org/packages/pengboomouch/regulus-php) [![PHP Version Require](http://poser.pugx.org/pengboomouch/regulus-php/require/php)](https://packagist.org/packages/pengboomouch/regulus-php) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pengboomouch/regulus-php/LICENSE)
+# regulus-php &middot; ![GitHub Actions](https://github.com/pengboomouch/regulus-php/actions/workflows/php.yml/badge.svg?event=push) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pengboomouch/regulus-php/LICENSE)
 
 Regulus Php Version - Lightweight rule organization
 
