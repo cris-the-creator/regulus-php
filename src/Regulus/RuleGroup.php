@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Regulus;
 
-use Regulus\Exception\OutcomeException;
+use Regulus\Exception\RuleGroupException;
 
-class Outcome
+class RuleGroup implements Rule
 {
     /**
      * @var Rule[]
@@ -14,12 +14,12 @@ class Outcome
     private array $rules = [];
 
     /**
-     * @throws OutcomeException
+     * @throws RuleGroupException
      */
-    public function addRule(Rule $rule): void
+    public function add(Rule $rule): void
     {
         if (array_key_exists($rule::class, $this->rules)) {
-            throw new OutcomeException('RuleResult with same name already exists.');
+            throw new RuleGroupException('RuleResult with same name already exists.');
         }
 
         $this->rules[$rule::class] = $rule;
@@ -31,5 +31,10 @@ class Outcome
             return $this->rules[$name];
         }
         return null;
+    }
+
+    public function getRuleResult(): ?\Regulus\RuleResult
+    {
+        // TODO: Implement getRuleResult() method.
     }
 }

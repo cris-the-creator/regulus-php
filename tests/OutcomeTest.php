@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
-use Regulus\Exception\OutcomeException;
+use Regulus\Exception\RuleGroupException;
 use Regulus\Outcome;
 use Regulus\Rule;
 
@@ -12,7 +12,7 @@ class OutcomeTest extends TestCase
 {
 
     /**
-     * @throws OutcomeException
+     * @throws RuleGroupException
      * @throws Exception
      */
     public function testNoTwoRulesOfSameClass()
@@ -22,7 +22,7 @@ class OutcomeTest extends TestCase
         $outcome = new Outcome();
         $outcome->addRule($rule);
 
-        $this->expectException(OutcomeException::class);
+        $this->expectException(RuleGroupException::class);
         $outcome->addRule($rule);
     }
 
