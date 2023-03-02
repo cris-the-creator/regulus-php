@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
+namespace Regulus;
+
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Regulus\Exception\RuleGroupException;
 use Regulus\Outcome;
-use Regulus\Rule;
 
 class OutcomeTest extends TestCase
 {

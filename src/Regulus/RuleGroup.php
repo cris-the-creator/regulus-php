@@ -6,12 +6,31 @@ namespace Regulus;
 
 use Regulus\Exception\RuleGroupException;
 
-class RuleGroup implements Rule
+class RuleGroup
 {
     /**
      * @var Rule[]
      */
     private array $rules = [];
+
+    public function __construct(private readonly string $name) {}
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Rule[]
+     */
+    public function getRuleResults(): array
+    {
+        $results = [];
+        foreach ($this->rules as $rule) {
+            $results[] = $rule->getRuleResult();
+        }
+        return $results;
+    }
 
     /**
      * @throws RuleGroupException
@@ -31,10 +50,5 @@ class RuleGroup implements Rule
             return $this->rules[$name];
         }
         return null;
-    }
-
-    public function getRuleResult(): ?\Regulus\RuleResult
-    {
-        // TODO: Implement getRuleResult() method.
     }
 }

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+namespace Regulus;
 class RuleResultTest extends \PHPUnit\Framework\TestCase
 {
     public function testInit()
