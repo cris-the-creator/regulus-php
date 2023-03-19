@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Regulus;
+namespace Regulus\Core;
+
+use Regulus\Interface\Rule;
 
 class RuleGroup
 {

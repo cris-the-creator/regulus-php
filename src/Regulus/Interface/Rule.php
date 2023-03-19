@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Regulus;
+namespace Regulus\Interface;
+
+use Regulus\Core\RuleResult;
 
 interface Rule
 {

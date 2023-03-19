@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Regulus;
+namespace Regulus\Core;
+
+use Regulus\Interface\Rule;
 
 class Resolver
 {
@@ -10,7 +12,7 @@ class Resolver
     private array $succeededRules = [];
     private array $failedConditions = [];
     private array $succeededConditions = [];
-    private bool $isFulfilled = true;
+    private bool $isFulfilled = false;
 
     /**
      * @param RuleGroup[] $groups

@@ -2,15 +2,30 @@
 declare(strict_types=1);
 
 namespace Regulus;
+use PHPUnit\Framework\MockObject\Exception;
+use Regulus\Core\AbstractRule;
+use Regulus\Core\RuleResult;
+use Regulus\Interface\Condition;
+
 class RuleResultTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @throws Exception
+     */
     public function testInit()
     {
-        $ruleResult = $this->createStub(\Regulus\RuleResult::class);
-        $ruleResult->method('getRuleName')->willReturn('test');
-        $ruleResult->method('getConditionNames')->willReturn(["condition1", "condition2"]);
+        $ruleResult = new RuleResult(
+            true,
+            [$this->createStub(AbstractRule::class)],
+            [$this->createStub(AbstractRule::class)],
+            [$this->createStub(Condition::class)],
+            [$this->createStub(Condition::class)]
+        );
 
-        $this->assertEquals('test', $ruleResult->getRuleName());
-        $this->assertTrue(count($ruleResult->getConditionNames()) === 2);
+        $this->assertTrue($ruleResult->isFulfilled());
+        $this->assertCount(1, $ruleResult->getSucceededRules());
+        $this->assertCount(1, $ruleResult->getFailedRules());
+        $this->assertCount(1, $ruleResult->getFailedConditions());
+        $this->assertCount(1, $ruleResult->getSucceededConditions());
     }
 }

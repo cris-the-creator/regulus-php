@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Regulus;
 
+use Regulus\Core\Resolver;
+use Regulus\Core\RuleGroup;
+use Regulus\Core\RuleResult;
 use Regulus\Exception\RuleGroupException;
+use Regulus\Interface\Rule;
 
 /**
  * Facade for easy rule management.

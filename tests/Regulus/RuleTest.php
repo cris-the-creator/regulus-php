@@ -9,11 +9,11 @@ class RuleTest extends \PHPUnit\Framework\TestCase
      */
     public function testInit()
     {
-        $ruleResult = $this->createStub(\Regulus\RuleResult::class);
+        $ruleResult = $this->createStub(Core\RuleResult::class);
 
-        $rule = $this->createStub(\Regulus\Rule::class);
-        $rule->expects($this->once())->method('getRuleResult')->willReturn($ruleResult);
+        $rule = $this->createStub(Interface\Rule::class);
+        $rule->expects($this->once())->method('resolve')->willReturn($ruleResult);
 
-        $this->assertEquals($rule->getRuleResult(), $ruleResult);
+        $this->assertEquals($rule->resolve(), $ruleResult);
     }
 }

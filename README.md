@@ -62,8 +62,9 @@ if ($rowRuleGroupResult->isFulfilled()) {
 
 ### Create conditions
 Define acceptance conditions to be fulfilled.
+
 ```php
-class SomeRowCondition implements \Regulus\Condition
+class SomeRowCondition implements \Regulus\Interface\Condition
 {
     // Inject all repositories or services you need
     public function __construct(private SomeService $someService)
@@ -81,8 +82,9 @@ class SomeRowCondition implements \Regulus\Condition
 
 ### Create rules
 A rule can have multiple conditions. You can decide for yourself when to return a fail or success result.
+
 ```php
-class DisableRowRule extends \Regulus\AbstractRule
+class DisableRowRule extends \Regulus\Core\AbstractRule
 {
     // Inject all needed conditions for this rule
     public function __construct(private SomeRowCondition $someRowCondition)

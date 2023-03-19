@@ -5,23 +5,31 @@ declare(strict_types=1);
 namespace Regulus;
 
 use PHPUnit\Framework\TestCase;
+use Regulus\Core\Resolver;
 
 class ResolverTest extends TestCase
 {
-    /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \Regulus\Exception\ResolverException
-     */
-    public function testInit()
+
+    public function testGroupResolve(): Resolver
     {
-        /*$ruleResult = $this->createStub('Regulus\RuleResult');
-        $ruleResult->method('isFulfilled')->willReturn(false);*/
+        $resolver = new Resolver();
+        $ruleResult = $resolver->resolveGroups([]);
 
-        $ruleResult = $this->createStub(\Regulus\RuleResult::class);
+        $this->assertNotNull($ruleResult);
+        $this->assertTrue($ruleResult->isFulfilled());
 
-        $resolver = $this->createStub(\Regulus\Resolver::class);
-        $resolver->method('resolve')->willReturn($ruleResult);
+        return $resolver;
+    }
 
-        $this->assertEquals($resolver->resolve('test'), $ruleResult);
+    /**
+     * @depends testGroupResolve
+     * @return void
+     */
+    public function testRuleResolve(Resolver $resolver)
+    {
+        $ruleResult = $resolver->resolveRules([]);
+
+        $this->assertNotNull($ruleResult);
+        $this->assertTrue($ruleResult->isFulfilled());
     }
 }

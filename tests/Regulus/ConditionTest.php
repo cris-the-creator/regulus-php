@@ -9,7 +9,7 @@ class ConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testInit()
     {
-        $condition = $this->createStub(\Regulus\Condition::class);
+        $condition = $this->createStub(Interface\Condition::class);
         $condition->method('isFulfilled')->willReturn(true);
 
         $this->assertTrue($condition->isFulfilled());

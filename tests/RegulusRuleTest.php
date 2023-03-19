@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Regulus\Condition;
+use Regulus\Core\Resolver;
+use Regulus\Core\RuleResult;
 use Regulus\Exception\RuleGroupException;
+use Regulus\Interface\Condition;
+use Regulus\Interface\Rule;
 use Regulus\Regulus;
-use Regulus\Resolver;
-use Regulus\RuleResult;
-use Regulus\Rule;
 
 class RegulusRuleTest extends TestCase
 {

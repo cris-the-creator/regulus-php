@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Regulus;
+namespace Regulus\Interface;
 
 interface ResolverInterface
 {
