@@ -23,24 +23,28 @@ $disableRow = new \DisableRowRule(
 );
 
 // Init a group and add all rules to it
-$ruleGroup = new \Regulus\RuleGroup('Row_Rules');
-$ruleGroup->add($disableRow);
-
-// Init the resolver and pass him a rule or a group
-$resolver = new \Regulus\Resolver($ruleGroup);
+$regulus = new \Regulus\Regulus();
+$regulus->createGroup('row_rules');
+$regulus->addRuleTo('row_rules', $disableRow);
 ```
 #### Resolve all rules
 ```php
-$finalResult = $resolver->resolveAll();
+$finalResult = $regulus->resolveAll();
+
 if ($finalResult->isFulfilled()) {
     // Do something final
     // ...
+} else {
+    $failedRules = $finalResult->getFailedRules();
+    $failedConditions = $failedRules->getFailedConditions();
+    
+    // Log or do something else
 }
 ```
 
 #### Resolve a specific rule
 ```php
-$disableRowResult = $resolver->resolve(DisableRowRule::class);
+$disableRowResult = $regulus->resolveRuleIn('row_rules', DisableRowRule::class);
 if ($disableRowResult->isFulfilled()) {
     // Disable the row
     // ...
@@ -49,7 +53,7 @@ if ($disableRowResult->isFulfilled()) {
 
 #### Resolve specific group
 ```php
-$rowRuleGroupResult = $resolver->resolveGroup('Row_Rules');
+$rowRuleGroupResult = $resolver->resolveGroup('row_rules');
 if ($rowRuleGroupResult->isFulfilled()) {
     // Do something to the rows
     // ...
@@ -78,26 +82,31 @@ class SomeRowCondition implements \Regulus\Condition
 ### Create rules
 A rule can have multiple conditions. You can decide for yourself when to return a fail or success result.
 ```php
-class DisableRowRule implements \Regulus\Rule
+class DisableRowRule extends \Regulus\AbstractRule
 {
     // Inject all needed conditions for this rule
     public function __construct(private SomeRowCondition $someRowCondition)
     {}
 
-    public function getRuleResult(): ?\Regulus\RuleResult
+    public function resolve(): RuleResult
     {
-        // Determine if the result is fulfilled ...
-        if($this->someRowCondition->isFulfilled()) {
-            return new \Regulus\RuleResult(
-                self::class,
-                [$this->someRowCondition::class]
-            );
+        $succeededConditions = [];
+        $failedConditions = [];
+        
+        // Determine if the result is fulfilled
+        if(!$this->someRowCondition->isFulfilled()) {
+            $isFulfilled = false;
+            $failedConditions[] = $this->someRowCondition;
+        } else {
+            $isFulfilled = true;
+            $succeededConditions[] = $this->someRowCondition;
         }
 
-        // ... or not
-        return new \Regulus\RuleResult(
-            self::class,
-            []
+        return $this->createResult(
+            $isFulfilled,
+            self,
+            $succeededConditions,
+            $failedConditions
         );
     }
 }

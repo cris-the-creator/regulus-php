@@ -1,49 +1,82 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Regulus;
 
-use Regulus\Exception\ResolverException;
-
 class Resolver
 {
-    private array $ruleGroups;
+    private array $failedRules = [];
+    private array $succeededRules = [];
+    private array $failedConditions = [];
+    private array $succeededConditions = [];
+    private bool $isFulfilled = true;
 
-    public function addGroup(RuleGroup $ruleGroup): void
+    /**
+     * @param RuleGroup[] $groups
+     * @return RuleResult
+     */
+    public function resolveGroups(array $groups): RuleResult
     {
-        $this->ruleGroups[$ruleGroup->getName()] = $ruleGroup;
+        $this->resetResultMaps();
+
+        foreach ($groups as $group) {
+            foreach($group->getRules() as $rule) {
+                $this->resolve($rule);
+            }
+        }
+
+        return new RuleResult(
+            $this->isFulfilled,
+            $this->succeededRules,
+            $this->failedRules,
+            $this->succeededConditions,
+            $this->failedConditions
+        );
     }
 
     /**
-     * @throws ResolverException
+     * @param Rule[] $rules
+     * @return RuleResult
      */
-    public function resolve(string $ruleName): ?RuleResult
+    public function resolveRules(array $rules): RuleResult
     {
-        $rule = $this->ruleGroup->findRule($ruleName);
-        if (null === $rule) {
-            throw new ResolverException('Resolve rule not found.');
+        $this->resetResultMaps();
+
+        foreach($rules as $rule) {
+            $this->resolve($rule);
         }
 
-        return $rule->getRuleResult();
+        return new RuleResult(
+            $this->isFulfilled,
+            $this->succeededRules,
+            $this->failedRules,
+            $this->failedConditions,
+            $this->succeededConditions
+        );
     }
 
-    public function resolveGroup(string $groupName): ?RuleResult
+    private function resolve(Rule $rule): void
     {
-        if (!array_key_exists($groupName, $this->ruleGroups))  {
-            return null;
+        $ruleResult = $rule->resolve();
+        if (!$ruleResult->isFulfilled()) {
+            $this->failedRules[] = $rule;
+            array_push($this->failedConditions, ...$ruleResult->getFailedConditions());
+            $this->isFulfilled = false;
+            return;
         }
 
-        $ruleResults = $this->ruleGroups[$groupName]->getRuleResults();
 
-        foreach ($ruleResults as $ruleResult) {
-            /* @var RuleResult $ruleResult */
-            if ($ruleResult->isFulfilled()) {
-                continue;
-            }
+        $this->succeededRules[] = $rule;
+        array_push($this->succeededConditions, ...$ruleResult->getSucceededConditions());
+    }
 
-            //TODO: Return fail rule result
-        }
-        //TODO: Return success rule result
-        return new RuleResult($groupName, []);
+    private function resetResultMaps(): void
+    {
+        $this->isFulfilled = true;
+        $this->succeededRules = [];
+        $this->failedRules = [];
+        $this->succeededConditions = [];
+        $this->failedConditions = [];
     }
 }

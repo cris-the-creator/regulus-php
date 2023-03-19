@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Regulus;
 
-use Regulus\Exception\RuleGroupException;
-
 class RuleGroup
 {
     /**
@@ -23,24 +21,13 @@ class RuleGroup
     /**
      * @return Rule[]
      */
-    public function getRuleResults(): array
+    public function getRules(): array
     {
-        $results = [];
-        foreach ($this->rules as $rule) {
-            $results[] = $rule->getRuleResult();
-        }
-        return $results;
+        return $this->rules;
     }
 
-    /**
-     * @throws RuleGroupException
-     */
     public function add(Rule $rule): void
     {
-        if (array_key_exists($rule::class, $this->rules)) {
-            throw new RuleGroupException('RuleResult with same name already exists.');
-        }
-
         $this->rules[$rule::class] = $rule;
     }
 

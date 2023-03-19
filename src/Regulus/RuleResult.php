@@ -6,35 +6,39 @@ namespace Regulus;
 
 class RuleResult
 {
-    private bool $isFulfilled;
-    /**
-     * @param string $ruleName
-     * @param string[] $conditionNames
-     */
-    public function __construct(private readonly string $ruleName, private readonly array $conditionNames)
+    public function __construct(
+        private readonly bool $isFulfilled,
+        private readonly array $succeededRules,
+        private readonly array $failedRules,
+        private readonly array $failedConditions,
+        private readonly array $succeededConditions
+    ) {}
+
+    public function isFulfilled(): bool
     {
-        if (! empty($this->conditions)) {
-            $this->isFulfilled = true;
-        } else {
-            $this->isFulfilled = false;
-        }
+        return $this->isFulfilled;
     }
 
-    public function getRuleName(): string
+    public function getFailedRules(): array
     {
-        return $this->ruleName;
+        return $this->failedRules;
     }
 
     /**
      * @return string[]
      */
-    public function getConditionNames(): array
+    public function getSucceededRules(): array
     {
-        return $this->conditionNames;
+        return $this->succeededRules;
     }
 
-    public function isFulfilled(): bool
+    public function getFailedConditions(): array
     {
-        return $this->isFulfilled;
+        return $this->failedConditions;
+    }
+
+    public function getSucceededConditions(): array
+    {
+        return $this->succeededConditions;
     }
 }

@@ -2,53 +2,88 @@
 
 declare(strict_types=1);
 
-class RegulusRuleTest extends \PHPUnit\Framework\TestCase
-{
-    private static \PHPUnit\Framework\MockObject\Stub $rule1;
-    private static \PHPUnit\Framework\MockObject\Stub $rule2;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Regulus\Condition;
+use Regulus\Exception\RuleGroupException;
+use Regulus\Regulus;
+use Regulus\Resolver;
+use Regulus\RuleResult;
+use Regulus\Rule;
 
+class RegulusRuleTest extends TestCase
+{
+    private static MockObject $rule;
+    private static MockObject $condition;
+
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     function setUp(): void
     {
-        self::$rule1 = $this->createMock(\Regulus\Rule::class);
-        $ruleResult1 = new \Regulus\RuleResult(self::$rule1::class . '1', []);
-        self::$rule1->method('getRuleResult')->willReturn($ruleResult1);
-
-        self::$rule2 = $this->createMock(\Regulus\Rule::class);
-        $ruleResult2 = new \Regulus\RuleResult(self::$rule2::class . '2', []);
-        self::$rule2->method('getRuleResult')->willReturn($ruleResult2);
+        self::$rule = $this->createMock(Rule::class);
+        self::$condition = $this->createMock(Condition::class);
     }
 
     /**
-     * @throws \Regulus\Exception\ResolverException
-     * @throws \Regulus\Exception\RuleGroupException
+     * @return Regulus
+     * @throws RuleGroupException
      */
-    public function testSingleRule()
+    public function testSingleRule(): Regulus
     {
-        $ruleGroup = $this->createMock(\Regulus\RuleGroup::class);
-        $ruleGroup->method('findRule')->willReturn(self::$rule1);
+        $resolver = new Resolver();
+        $regulus = new Regulus($resolver);
 
-        $resolver = new \Regulus\Resolver();
-        $resolver->addGroup($ruleGroup);
-        $ruleResult = $resolver->resolve(self::$rule1::class);
+        $isFulfilled = true;
+        $ruleResultStub = new RuleResult($isFulfilled, [self::$rule], [], [], [self::$condition]);
+        self::$rule->method('resolve')->willReturnReference($ruleResultStub);
+        self::$condition->method('isFulfilled')->willReturn($isFulfilled);
 
-        $this->assertEquals(\Regulus\RuleResult::class, $ruleResult::class);
+        $regulus->createGroup('test_group');
+        $regulus->addRuleTo('test_group', self::$rule);
+
+        $ruleResult = $regulus->resolveRuleIn('test_group', self::$rule::class);
+        $this->assertNotNull($ruleResult::class);
+        $this->assertTrue($ruleResult->isFulfilled());
+        $this->assertCount(1, $ruleResult->getSucceededRules());
+        $this->assertCount(1, $ruleResult->getSucceededConditions());
+
+        return $regulus;
     }
 
-    public function testRuleGroup()
+    /**
+     * @depends testSingleRule
+     * @param Regulus $regulus
+     * @return Regulus
+     * @throws RuleGroupException
+     */
+    public function testRuleGroup(Regulus $regulus): Regulus
     {
-        $testGroupTitle = 'row_rules';
+        $ruleResult = $regulus->resolveGroup('test_group');
 
-        $ruleGroup = $this->createMock(\Regulus\RuleGroup::class);
-        $ruleGroup->method('findRules')->with($testGroupTitle)->willReturn([self::$rule1, self::$rule2]);
+        $this->assertNotNull($ruleResult);
+        $this->assertTrue($ruleResult->isFulfilled());
+        $this->assertCount(1, $ruleResult->getSucceededRules());
+        $this->assertCount(1, $ruleResult->getSucceededConditions());
 
-        $resolver = new \Regulus\Resolver($ruleGroup);
-        $ruleResults = $resolver->resolveGroup($testGroupTitle);
-
-        $this->assertCount(2, count($ruleResults));
+        return $regulus;
     }
 
-    public function testAllRules()
+    /**
+     * @depends testRuleGroup
+     * @param Regulus $regulus
+     * @return void
+     * @throws RuleGroupException
+     */
+    public function testAllRules(Regulus $regulus): void
     {
+        $regulus->createGroup('test_group_two');
+        $regulus->addRuleTo('test_group_two', self::$rule);
 
+        $ruleResult = $regulus->resolveAll();
+        $this->assertNotNull($ruleResult);
+        $this->assertFalse($ruleResult->isFulfilled());
+        $this->assertCount(1, $ruleResult->getSucceededRules());
+        $this->assertCount(1, $ruleResult->getFailedRules());
     }
 }
